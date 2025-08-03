@@ -7,18 +7,17 @@
 
 class NeuralNetwork {
 public:
-    // Constructor
     NeuralNetwork();
+    void addLayer(Layer& layer);
 
-    // Adds a layer to the network
-    void addLayer(const Layer& layer);
+    Eigen::VectorXf feedfoward(Eigen::VectorXf input);
+    void backpropagate(const Eigen::VectorXf& input, const Eigen::VectorXf& actual_output);
 
-    // Forward pass through the network
-    // input: input vector for the network
-    Eigen::VectorXf predict(Eigen::VectorXf input);
+    // pair for each layer : <grad_weights , grad_biases>
+    std::vector<std::pair<Eigen::MatrixXf, Eigen::VectorXf>> gradients;
 
 private:
-    std::vector<Layer> layers;
+    std::vector<Layer*> layers;
 };
 
 

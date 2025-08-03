@@ -6,7 +6,9 @@
 class Layer {
 public:
     Eigen::VectorXf last_input;  
-    Eigen::VectorXf last_z;      
+    Eigen::VectorXf last_z;  
+    Eigen::MatrixXf weights; // Weight matrix
+    Eigen::VectorXf biases;  // Bias vector    
 
     // Constructor: initializes weights and biases
     // inputSize: number of inputs to the layer
@@ -16,10 +18,7 @@ public:
     // forward: propagates the input through the layer
     // input: input vector of size inputSize
     Eigen::VectorXf forward(const Eigen::VectorXf& input);
-
-private:
-    Eigen::MatrixXf weights; // Weight matrix
-    Eigen::VectorXf biases;  // Bias vector
+    
 };
 
 #endif

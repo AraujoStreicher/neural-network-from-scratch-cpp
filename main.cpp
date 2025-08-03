@@ -14,8 +14,10 @@ int main() {
     NeuralNetwork network;
 
     // 2 -> 3 -> 1
-    network.addLayer(Layer(2, 3)); // 1st layer: 3 neurons
-    network.addLayer(Layer(3, 1)); // 2nd layer: 1 neuron
+    Layer l1(2, 3);
+    Layer l2(3, 1);
+    network.addLayer(l1); // 1st layer: 3 neurons
+    network.addLayer(l2); // 2nd layer: 1 neuron
 
 
     Eigen::VectorXf input(2);
@@ -24,7 +26,7 @@ int main() {
     std::cout << "\nEntrada da Rede:\n" << input << std::endl;
 
     // Faz a previsão
-    Eigen::VectorXf output = network.predict(input);
+    Eigen::VectorXf output = network.feedfoward(input);
 
     std::cout << "\nSaída Final da Rede:\n" << output << std::endl;
 
