@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib> 
-#include <ctime>  
-#include "lib/eigen-3.4.0/Eigen/Dense" // Inclua o Eigen
+#include <ctime> 
+#include "lib/eigen-3.4.0/Eigen/Dense" 
 #include "include/Layer.hpp" 
 #include "include/NeuralNetwork.hpp"
 

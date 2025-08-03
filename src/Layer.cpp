@@ -17,5 +17,9 @@ Eigen::VectorXf Layer::forward(const Eigen::VectorXf& input) {
     // output: z = (weights * input) + biases
     Eigen::VectorXf z = (weights * input) + biases;
 
+    // save data to use on brackpropagation
+    last_input = input;
+    last_z = z;
+
     return Activation::sigmoid(z); 
 }

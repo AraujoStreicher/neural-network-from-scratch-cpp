@@ -5,6 +5,9 @@
 
 class Layer {
 public:
+    Eigen::VectorXf last_input;  
+    Eigen::VectorXf last_z;      
+
     // Constructor: initializes weights and biases
     // inputSize: number of inputs to the layer
     // outputSize: number of neurons in the layer
