@@ -1,3 +1,4 @@
+#include <iostream>
 #include "NeuralNetwork.hpp"
 #include "Loss.hpp"
 #include "Activation.hpp"
@@ -46,7 +47,58 @@ void NeuralNetwork::backpropagate(const Eigen::VectorXf& input, const Eigen::Vec
         Eigen::VectorXf grad_biases = delta;
         gradients[i] = {grad_weights, grad_biases};
     }
+}
 
-    
+void NeuralNetwork::update_weights(double learning_rate){
+    if (gradients.size() != layers.size()) {
+        std::cout << "Gradients vector size is different than layers vector size!" << std::endl;
+        return;
+    }
+
+    for(size_t i = 0; i < layers.size(); ++i){
+        Layer* current_layer = layers[i];
+        const auto& grad_pair = gradients[i]; 
+
+
+        current_layer->weights -= learning_rate * grad_pair.first;
+        current_layer->biases -= learning_rate * grad_pair.second;
+    }
+}
+
+void NeuralNetwork::train(  
+    const std::vector<Eigen::VectorXf>& training_inputs,                     
+    const std::vector<Eigen::VectorXf>& training_outputs,
+    int epochs,
+    double learning_rate
+){
+    if (training_inputs.size() != training_outputs.size()) {
+        std::cout << "Error training: training_inputs.size() != training_outputs.size()" << std::endl;
+        return;
+    }
+
+    std::cout << "Beginning training..." << std::endl;
+
+    for(int i = 0; i < epochs; ++i){
+        double total_epoch_error = 0.0;
+
+        for (size_t j = 0; j < training_inputs.size(); ++j) {
+            const auto& input = training_inputs[j];
+            const auto& expected_output = training_outputs[j];
+
+            Eigen::VectorXf pred_output = feedfoward(input);
+
+            total_epoch_error += Loss::mean_squared_error(pred_output, expected_output);
+
+            backpropagate(input, expected_output);
+            
+            update_weights(learning_rate);
+        }
+
+        if ((i + 1) % 100 == 0) {
+            std::cout << "Epoch " << i + 1 << "/" << epochs
+                      << ", Average Error: " << total_epoch_error / training_inputs.size()
+                      << std::endl;
+        }
+    }
 }
 
